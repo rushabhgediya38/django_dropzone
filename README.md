@@ -6,8 +6,9 @@ In the Model , i have created Three Models each models have different functional
 
 1) Post Model 
 
-    -> In The post model implement dropzone with name and username
-    -> how to work dropzone without creating Forms.
+    -> In The post model implement dropzone with name and username.
+    
+    -> And dropzone implement without creating Forms.
 
 2) post_post Model
 
