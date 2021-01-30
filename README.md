@@ -6,15 +6,15 @@ In the Model , i have created Three Models each models have different functional
 
 1) Post Model 
 
--> In The post model implement dropzone with name and username
--> how to work dropzone without creating Forms.
+    -> In The post model implement dropzone with name and username
+    -> how to work dropzone without creating Forms.
 
 2) post_post Model
 
--> I will creating this model bcz to know how to upload images(Files) using ajax method...
+    -> I will creating this model bcz to know how to upload images(Files) using ajax method...
 
 3) post123 Model
 
--> If you use dropzone.js and implementing on ONE input file field which contain(user posts) and you have other input filed field which contain user(profile pic).
+    -> If you use dropzone.js and implementing on ONE input file field which contain(user posts) and you have other input filed field which contain user(profile pic).
 
--> so, in this model i will implimented, multiple image field with dropzone.js.
+    -> so, in this model i will implimented, multiple image field with dropzone.js.
