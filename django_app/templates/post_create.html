@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
       <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
     <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
     <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
 
@@ -94,6 +95,7 @@
                 // Make sure that the form isn't actually being sent.
                 e.preventDefault();
                 e.stopPropagation();
+
                 if (dzClosure.getQueuedFiles().length > 0) {
                     dzClosure.processQueue();
                 } else {
@@ -105,7 +107,6 @@
                         data: {
                             'name': jQuery("#id_name").val(),
                             'username': jQuery("#id_username").val(),
-
                             'csrfmiddlewaretoken': '{{csrf_token}}',
                         },
                         beforeSend: function (xhr) {
@@ -122,7 +123,6 @@
             this.on("sendingmultiple", function (data, xhr, formData) {
                 formData.append("name", jQuery("#id_name").val());
                 formData.append("username", jQuery("#id_username").val());
-
                 formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
             });
 

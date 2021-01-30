@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+
+
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+
+
+  <div class="container-fluid">
+    <form id="friend-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="container">
+                <div class="row">
+
+                    <div class="form-group col-4">
+                        <label class="col-12">Name</label>
+                        <input type="text" name="name" maxlength="100" required="" id="id_name">
+                    </div>
+                    <br>
+
+                    <div class="form-group col-4">
+                        <label class="col-12">Username</label>
+                        <input type="text" name="username" maxlength="100" required="" id="id_username">
+                    </div>
+                    <br>
+
+
+                    <div class="form-group">
+                        <label for="id_img1">Example file input</label><br>
+                        <input type="file" name="img1" accept="image/*" id="id_img1">
+                    </div>
+                    <br>
+
+
+                    <div class="row pt-3">
+                                <div class="col align-middle">
+                                    <div class="dropzone dropzone-file-area" id="fileUpload">
+
+                                        <DIV class="dz-message needsclick">
+                                            Drop files here or click to upload.<BR>
+                                        </DIV>
+
+
+                                        <div class="dz-default dz-message">
+                                            <span id="images" class="far fa-images mb-3" data-toggle="tooltip"
+                                                  title="Add Photos"></span>
+                                        </div>
+                                    </div>
+                                    <input id="images" name="file" type="file" multiple hidden="hidden">
+                                </div>
+
+              </div><br><br>
+
+        </div><br>
+
+              <button type="submit" id="submit-all">button</button>
+        </div>
+
+    </form>
+  </div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+
+<script>
+    Dropzone.options.fileUpload = {
+        url: 'http://127.0.0.1:8000/final_post/',
+        thumbnailWidth: 80,
+        thumbnailHeight: 80,
+        dictRemoveFile: "Remove",
+        autoProcessQueue: false,
+        uploadMultiple: true,
+        parallelUploads: 20,
+        maxFiles: 20,
+        maxFilesize: 20,
+        acceptedFiles: ".jpeg,.jpg,.png,.gif",
+        addRemoveLinks: true,
+        init: function () {
+            dzClosure = this; // Makes sure that 'this' is understood inside the functions below.
+
+            // for Dropzone to process the queue (instead of default form behavior):
+            document.getElementById("submit-all").addEventListener("click", function (e) {
+
+                // Make sure that the form isn't actually being sent.
+                e.preventDefault();
+                e.stopPropagation();
+                const form = document.getElementById('friend-form')
+                const name = document.getElementById('id_name')
+                const username = document.getElementById('id_username')
+
+                const img1 = document.getElementById('id_img1')
+                const img11 = img1.files[0]
+                const img111 = img11.name
+                console.log(img11)
+
+                const csrf = document.getElementsByName('csrfmiddlewaretoken')
+
+                const fd = new FormData()
+                fd.append('csrfmiddlewaretoken', csrf[0].value)
+                fd.append('name', name.value)
+                fd.append('username', username.value)
+                fd.append('img1', img1.files[0])
+
+
+
+                if (dzClosure.getQueuedFiles().length > 0) {
+                    dzClosure.processQueue();
+                } else {
+                    console.log('ajax')
+                    $.ajax({
+                        url: "http://127.0.0.1:8000/final_post/",
+                        type: 'POST',
+                        dataType: 'json',
+
+                        data: fd,
+
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                        },
+                        success: function (result) {
+                            window.location.replace("http://127.0.0.1:8000/");
+                        },
+                        catch: false,
+                        contentType: false,
+                        processData: false,
+                    });
+                }
+            });
+
+            //send all the form data along with the files:
+
+            this.on("sendingmultiple", function (data, xhr, formData) {
+
+                const csrf = document.getElementsByName('csrfmiddlewaretoken')
+
+                const form = document.getElementById('friend-form')
+                const name = document.getElementById('id_name')
+                const username = document.getElementById('id_username')
+
+                const img1 = document.getElementById('id_img1')
+                const img11 = img1.files[0]
+                const img111 = img11.name
+                console.log(img11)
+
+
+                formData.append('csrfmiddlewaretoken', csrf[0].value)
+                formData.append('name', name.value)
+                formData.append('username', username.value)
+                formData.append('img1', img1.files[0])
+
+            });
+
+            // On success refresh
+            this.on("success", function (file) {
+                window.location.replace("http://127.0.0.1:8000/");
+            });
+        }
+    }
+</script>
+
+<script
+  src="https://code.jquery.com/jquery-2.2.4.js"
+  integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+  crossorigin="anonymous"></script>
+
+  </body>
+</html>
