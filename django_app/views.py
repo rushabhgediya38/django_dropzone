@@ -62,22 +62,16 @@ def final_post(request):
         files = [request.FILES.get('file[%d]' % i) for i in range(0, len(request.FILES))]
         images = request.FILES.get('file[0]', None)
 
+        if img12 and files == None:
+            posttt = post123.objects.create(name=name11, username=username11, img1=img12)
+            posttt.save()
+            print('img12')
+            return redirect('home')
+
         for f in files:
             data = f
             posttt = post123.objects.create(name=name11, username=username11, img=data, img1=img12)
             posttt.save()
-            return redirect('/')
-
-        if img12:
-            posttt = post123.objects.create(name=name11, username=username11, img1=img12)
-            posttt.save()
-            return redirect('/')
-
-        if files:
-            for f in files:
-                data = f
-                posttt = post123.objects.create(name=name11, username=username11, img=data)
-                posttt.save()
-                return redirect('/')
+            return redirect('home')
 
     return render(request, 'final_post.html')
