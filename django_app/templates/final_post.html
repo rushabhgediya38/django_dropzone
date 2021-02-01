@@ -110,8 +110,6 @@
 
                 const img1 = document.getElementById('id_img1')
                 const img11 = img1.files[0]
-                const img111 = img11.name
-                console.log(img11)
 
                 const csrf = document.getElementsByName('csrfmiddlewaretoken')
 
@@ -120,7 +118,6 @@
                 fd.append('name', name.value)
                 fd.append('username', username.value)
                 fd.append('img1', img1.files[0])
-
 
 
                 if (dzClosure.getQueuedFiles().length > 0) {
@@ -145,6 +142,7 @@
                         processData: false,
                     });
                 }
+
             });
 
             //send all the form data along with the files:
@@ -159,8 +157,6 @@
 
                 const img1 = document.getElementById('id_img1')
                 const img11 = img1.files[0]
-                const img111 = img11.name
-                console.log(img11)
 
 
                 formData.append('csrfmiddlewaretoken', csrf[0].value)
