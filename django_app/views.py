@@ -1,6 +1,8 @@
 from django.core import serializers
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
 from .models import post, post123
 
 from .forms import post_form, post_py, post123_form
@@ -75,3 +77,26 @@ def final_post(request):
             return redirect('home')
 
     return render(request, 'final_post.html')
+
+
+# same as above final_post but using forms
+@csrf_exempt
+def test_post(request):
+    if request.method == 'POST' or request.FILES:
+        form = post123_form(request.POST or None, request.FILES or None)
+        if form.is_valid():
+            name = request.POST['name']
+            username = request.POST['name']
+            img1 = request.FILES.get('img1')
+            files = [request.FILES.get('file[%d]' % i) for i in range(0, len(request.FILES))]
+            images = request.FILES.get('file[0]', None)
+
+            for f in files:
+                data = f
+                posttt = post123.objects.create(name=name, username=username, img=img1, img1=data)
+                posttt.save()
+                return JsonResponse({'status': 'Save'})
+        else:
+            return JsonResponse({'status': 0})
+
+    return render(request, 'test_post.html')
