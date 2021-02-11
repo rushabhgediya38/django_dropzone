@@ -16,6 +16,6 @@ In the Model , i have created Three Models each models have different functional
 
 3) post123 Model
 
-    -> If you use dropzone.js and implementing on ONE input file field which contain(user posts) and you have other (wihout dropzone) input filed field which contain user(profile pic).
+    -> If you use dropzone.js and implementing on multiple file upload using (dropzone) input which contain(user posts) and you have other (wihout dropzone) input filed field which contain user(profile pic).
 
     -> so, in this model i will implimented, multiple image field with dropzone.js.
